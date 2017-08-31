@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+       <script>
+           function Shape() {}
+           Shape.prototype.name="name";
+           Shape.prototype.toString=function () {
+               return this.name
+           };
+
+           function Twoshape() {}
+           Twoshape.prototype=Shape.prototype;
+            //constructor会被重写，我们强制改回来
+           Twoshape.prototype.constructor=Twoshape;
+           Twoshape.prototype.name="2D shape";
+
+           function Triangle(side,height) {
+               this.side=side;
+               this.height=height;
+           }
+           Triangle.prototype=Twoshape.prototype;
+           Triangle.prototype.constructor=Triangle;
+           Triangle.prototype.name="Triangle shape";
+           Triangle.prototype.getArea=function () {
+               return this.side*this.height/2;
+           }
+           var fpc=new Triangle(5,10);
+           console.log(fpc.getArea());
+           console.log(fpc.toString());
+           console.log(fpc.constructor);
+
+           //子对象与父对象指向的都是同一个对象，所以修改了子对象的值，父对象也会被改变
+           var a=new Shape();
+           alert(a);
+       </script>
+</body>
+</html>

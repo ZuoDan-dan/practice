@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+       <script>
+           function Animal(group,gender) {
+               this.group=group;
+               this.gender=gender;
+           };
+           Animal.prototype.showInfo=function () {
+               console.log(this.group+"---"+this.gender);
+           }
+           function Bird(gender) {
+               Animal.call(this,"鸟类",gender);
+           }
+           Bird.prototype=new Animal();
+           var a=new Bird("雄");
+           a.showInfo();
+
+          //obj.call:（thisobj[,args[,args......]]）
+           //call：调用一个对象的一个方法，以另一个对象替换当前的对象
+                                           //改变this的指向
+           function add(a,b) {
+               alert(a+b);
+           }
+           function sub(a,b) {
+               alert(a-b);
+           }
+           add.call(sub,3,1);//4   因为没有this
+
+           function obj() {
+               this.value="对象"
+           }
+           var value="全局对象";
+           function f1() {
+               alert(this.value);
+           }
+
+           window.f1();
+           f1.call(window);
+           f1.call(new obj());
+       </script>
+</body>
+</html>

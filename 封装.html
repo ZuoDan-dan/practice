@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+      <script>
+          //封装的核心思想：把相同的代码，或者是功能相同的代码，写到一个函数里面，这样的话，
+          //下次你再想使用，直接调用这个函数就行了。
+          function Shape() {}
+          Shape.prototype.name="Shape";
+          Shape.prototype.toString=function () {
+              return this.name;
+          }
+          function extend(child,father) {
+              var F=function () {}
+              F.prototype=father.prototype;
+              child.prototype=new F();
+              child.prototype.constructor=child;
+          };
+          function Twoshape() {};
+          extend(Twoshape,Shape);
+
+          function Triangle() {};
+           extend(Triangle,Twoshape);
+
+          var a=new Triangle();
+          a.name="Triangle";
+          alert(a.toString());
+
+          var f= new Shape();
+          alert(f.name);
+      </script>
+</body>
+</html>

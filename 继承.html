@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+       <script>
+           function Animal() {
+
+           }
+           Animal.prototype={
+               group:"动物",
+               gender:"",
+               eat:function () {
+                   return  "吃东西";
+               },
+               sleep:function () {
+                   return "睡觉";
+               }
+           };
+           //定义子类
+           function Bird() {
+
+           }
+           //父类把财产移交给子类
+         Bird.prototype=new Animal();
+
+           //子类还自己增加属性或方法
+           Bird.prototype.fly=function () {
+               return "飞翔";
+           };
+           //子类不想要父类的东西，想要自己创造，这叫做重写
+           Bird.prototype.eat=function () {
+               return "先喝水再吃东西";
+           };
+
+           //当我们使用另外一个类的构造函数定义当前类的prototype属性，它的constructor会重写
+           var a=new Bird();
+           alert( a.constructor );
+
+           //bird的原型链的指向又重新指向自己了
+           Bird.prototype.constructor=Bird;
+           var b=new Bird();
+           alert( b.constructor );
+
+           alert( b.group );
+           alert( b.eat() );
+       </script>
+</body>
+</html>

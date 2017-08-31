@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+       <script>
+           function Animal(group,gender) {
+               this.group=group;
+               this.gender=gender;
+           }
+           Animal.prototype.showInfo=function () {
+               console.log(this.group+"---"+this.gender);
+           };
+           function layEggs() {
+               this.buildNest=function () {};
+               this.lay=function (number) {}
+           }
+
+           function Bird(gender) {
+               Animal.call(this,"鸟类",gender);
+               layEggs.call(this);
+           }
+            Bird.prototype=new Animal();
+
+
+           var a=new Bird("公");
+           console.log(a.showInfo());
+
+           a.buildNest=function () {
+               alert("在树上造窝");
+           };
+           a.buildNest();
+
+       </script>
+</body>
+</html>
