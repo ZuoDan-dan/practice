@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .mydiv{
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top:0;
+            left: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+      <div>
+          <a href="images/big3.jpg" class="bigImage">
+              <img class="smallImage" src="images/small3.jpg"/>
+          </a>
+      </div>
+      <script src="../jquery-1.12.4.js"></script>
+      <script>
+          $(function () {
+              var options={
+                  zoomWidth:400,//放大镜的宽度
+                  zoomHeight:400,//放大镜的高度
+                  position:"right",//定义放大镜的位置
+                  offset:10//距离原图片的距离
+              };
+              $(".smallImage").hover(function () {
+                  //首先获取位置,确定好大图片的位置
+                  var imageLeft=$(this).get(0).offsetLeft;
+                  var imageTop=$(this).get(0).offsetTop;
+
+                  var imageWidth=$(this).get(0).offsetWidth;
+                  var imageHeight=$(this).get(0).offsetHeight;
+
+                  //创建大图片  鼠标移入 生成一个div
+                  if($("div .mydiv").length==0){
+                      var bigImage=$(this).parent().attr("href");
+                      $(this).after("<div class='mydiv'><img src='"+bigImage+"' class='bigImg'/></div>")
+                  }
+                  //给大图添加样式
+                  $(".mydiv").css({
+                      top:imageTop,
+                      left:imageLeft+imageWidth+options.offset
+                  });
+                  $(".mydiv").width(options.zoomWidth);
+                  $(".mydiv").height(options.zoomHeight);
+                  $(".smallImage").mousemove(function (e) {
+                      //首先，一定要得到这个放大镜的放大倍数
+                      var bigWidth=$(".bigImg").get(0).offsetWidth;
+                      var bigHeight=$(".bigImg").get(0).offsetHeight;
+                      //计算比率
+                      var scaleX=bigWidth/imageWidth;
+                      var scaleY=bigHeight/imageHeight;
+                      //大图的位置已经计算好
+                      var scrollY=(e.pageY-imageTop-($("div.mydiv").height()/scaleY)/2)*scaleY;
+                      var scrollX=(e.pageX-imageLeft-($("div.mydiv").width()/scaleX)/2)*scaleX;
+                      //console.log(scaleY+"---"+scaleX);//2.41---2.40
+                      //console.log($("div.mydiv").height()/scaleY+"---"+$("div.mydiv").width()/scaleY);
+                      //console.log(scrollY+"----"+scrollX);//右下角：565--1023  图片尺寸：768--1228
+                      //如何移动
+                      $("div.mydiv").get(0).scrollTop=scrollY;
+                      $("div.mydiv").get(0).scrollLeft=scrollX;
+                  });
+              },function () {
+                  //鼠标移出  删除
+                 $(".mydiv").remove();
+              });
+          })
+      </script>
+</body>
+</html>
